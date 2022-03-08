@@ -31,18 +31,19 @@ function initDirection() {
     return Math.floor(Math.random() * 4);
 }
 
-function initSnake(color) {
+function initSnake(sorce,body) {
     return {
-        color: color,
+        src: sorce,
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0,
+        body: body,
 
     }
 }
-let snake1 = initSnake("purple");
-let snake2 = initSnake("blue");
-let snake3 = initSnake("orange");
+let snake1 = initSnake("https://cdn4.iconfinder.com/data/icons/nuuline-fill-animals/150/animal_head_face_cartoon-23-512.png",'./snake-kor.JPG');
+let snake2 = initSnake("https://cdn4.iconfinder.com/data/icons/nuuline-fill-animals/150/animal_head_face_cartoon-23-512.png",'./snake-kor.JPG');
+let snake3 = initSnake("https://cdn4.iconfinder.com/data/icons/nuuline-fill-animals/150/animal_head_face_cartoon-23-512.png",'./snake-kor.JPG');
 
 let apple = {
     color: "red",
@@ -57,9 +58,9 @@ function drawCell(ctx, x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
-function drawsanke(ctx , x,y){
+function drawsanke(ctx , x,y,sorce){
         const image = new Image();
-        image.src = "https://thumbs.dreamstime.com/b/snake-icon-isolated-white-background-snake-icon-isolated-white-background-simple-vector-logo-173925536.jpg";
+        image.src = sorce;
         ctx.drawImage(image, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
 }
@@ -87,18 +88,17 @@ function draw() {
         let ctx = snakeCanvas.getContext("2d");
 
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-        
-        drawsanke(ctx, snake1.head.x, snake1.head.y, snake1.color);
+        drawsanke(ctx, snake1.head.x, snake1.head.y,snake1.src);
         for (let i = 1; i < snake1.body.length; i++) {
-            drawsanke(ctx, snake1.body[i].x, snake1.body[i].y, snake1.color);
+            drawsanke(ctx, snake1.body[i].x, snake1.body[i].y, snake1.src);
         }
-        drawCell(ctx, snake2.head.x, snake2.head.y, snake2.color);
+        drawsanke(ctx, snake2.head.x, snake2.head.y, snake2.src);
         for (let i = 1; i < snake2.body.length; i++) {
-            drawCell(ctx, snake2.body[i].x, snake2.body[i].y, snake2.color);
+            drawsanke(ctx, snake2.body[i].x, snake2.body[i].y, snake2.src);
         }
-        drawCell(ctx, snake3.head.x, snake3.head.y, snake3.color);
+        drawsanke(ctx, snake3.head.x, snake3.head.y, snake3.src);
         for (let i = 1; i < snake3.body.length; i++) {
-            drawCell(ctx, snake3.body[i].x, snake3.body[i].y, snake3.color);
+            drawsanke(ctx, snake3.body[i].x, snake3.body[i].y, snake3.src);
         }
         
         let app = document.getElementById("apple");
