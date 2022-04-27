@@ -1,0 +1,44 @@
+// Task: 1. Deklarasi expiry time untuk token jwt
+	//       2. Buat claim menggunakan variable yang sudah didefinisikan diatas
+	//       3. expiry time menggunakan time millisecond
+
+	// TODO: answer here
+	expiryTime := time.Now().Add(time.Minute * 5)
+
+	claim := &Claims{
+		Username: username,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: expiryTime.Unix(),
+		},
+	}
+
+	// Task: Buat token menggunakan encoded claim dengan salah satu algoritma yang dipakai
+
+	// TODO: answer here
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
+
+	// Task: 1. Buat jwt string dari token yang sudah dibuat menggunakan JWT key yang telah dideklarasikan
+	//       2. return internal error ketika ada kesalahan ketika pembuatan JWT string
+
+	// TODO: answer here
+	tokenString, err := token.SignedString(jwtKey)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Task: Set token string kedalam cookie response
+
+	// TODO: answer here
+	cookie := &http.Cookie{
+		Name:    "token",
+		Value:   tokenString,
+		Expires: expiryTime,
+	}
+	http.SetCookie(w, cookie)
+
+	// Task: Return response berupa username dan token JWT yang sudah login
+
+	// json.NewEncoder(w).Encode(LoginSuccessResponse{Username: username, Token: ""}) // TODO: replace this
+	fmt.Println(res)
+	encoder.Encode(LoginSuccessResponse{Username: username, Token: tokenString})
